@@ -4,7 +4,7 @@
 <head>
   <title>Registration system PHP and MySQL</title>
   <link rel="stylesheet" href="style.css?v=<?php echo time(); ?>">
-  <link rel="icon" type="image/x-icon" href="Screenshot_20230720_191453_Chrome.jpg">
+  <link rel="icon" type="image/x-icon" href="img/logo.png">
 </head>
 <body>
 <div class="mai">

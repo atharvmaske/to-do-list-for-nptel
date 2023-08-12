@@ -1,16 +1,25 @@
 <?php
+    session_start();
+
+    // Get the task details from the form
+    if (!isset($_SESSION['username'])) {
+        header('location: main.php'); // Redirect users who are not logged in
+        exit();
+    }
+    
+    $currentUser = $_SESSION['username'];
     $errors = "";
     $db = mysqli_connect('localhost','root','','todo');
     if(isset($_POST['submit']))
     {
-        $date = $_POST['date'];
-        $task = $_POST['task'];
-        $time = $_POST['time'];
+        $date = isset($_POST['date']) ? $_POST['date'] : "";
+        $task = isset($_POST['task']) ? $_POST['task'] : "";
+        $time = isset($_POST['time']) ? $_POST['time'] : "";
         if(empty($task)){
             $errors= "Task Can,t Be Empty";
         }else{
-             mysqli_query($db,"INSERT INTO tasks (task,time,date) VALUES ('$task','$time','$date')");
-             header('location: todo.php');   
+            mysqli_query($db, "INSERT INTO tasks (username, task, time, date) VALUES ('$currentUser', '$task', '$time', '$date')");
+            header('location: todo.php');  
         }
         
     }
@@ -38,14 +47,23 @@
 <head>
     <title>To_do List</title>
     <link rel="stylesheet" href="todo.css?v=<?php echo time(); ?>">
-    <link rel="icon" type="image/x-icon" href="Screenshot_20230720_191453_Chrome.jpg">
+    <link rel="icon" type="image/x-icon" href="img/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
     <div class="container">
         <div class="info">
-            <img class="img" src="Screenshot_20230720_191453_Chrome.jpg" alt="">
+            <img class="img" src="img/logo.png" alt="">
             <div class="h1" >
             <h1>Organize your work <br> and life, finally.</h1>
+            </div>
+            <div class="user">
+            <i class="fa-solid fa-user fa-xl" style="  color: #6B8E23; margin-left: 10px; "></i>
+                <div class="name">
+                <?php
+                echo ":"; 
+                echo  $currentUser?>
+                </div>
             </div>
         </div>
         <nav>
@@ -97,23 +115,34 @@
                 </tr>
             </thead>
             <tbody>
-                <?php $i = 1; while($row = mysqli_fetch_array($tasks)) { ?>
-                    <tr>
-                    <td><?php echo $i; ?></td>
-                    <td class="date"><?php echo $row['date'];?></td>
-                    <td class="time"><?php echo $row['time'];?></td>
-                    <td class="task"><?php echo $row['task'];?></td>
-                    <td  class="delete">
-                     <a class="ix" href="#" onclick="confirmDelete(<?php echo $row['id']; ?>)">X</a>
-                    </td>
-                    <td class="do">
-                    <a onclick="done()" class="don" href="todo.php?done_task=<?php echo $row['id'];?>">Done</i></a>
-                    </td>
-                    </td>
-                   
-                </tr>            
-                <?php $i++ ; } ?>
-            </tbody>
+            <?php
+            // Fetch tasks associated with the logged-in user
+            $currentUser = $_SESSION['username'];
+            $tasks_query = "SELECT * FROM tasks WHERE username='$currentUser'";
+            $tasks_result = mysqli_query($db, $tasks_query);
+                
+
+                // Check if the query was successful
+                if (!$tasks_result) {
+                    echo "Error: " . mysqli_error($db);
+                } else {
+                    // Iterate through tasks and display them
+                    $id = 1;
+                    while ($row = mysqli_fetch_assoc($tasks_result)) {
+                        echo "<tr>";
+                        echo "<td>" . $id  . "</td>";
+                        echo "<td class='date'>" . $row['date'] . "</td>";
+                        echo "<td class='time'>" . $row['time'] . "</td>";
+                        echo "<td class='task'>" . $row['task'] . "</td>";
+                        echo "<td class='delete'><a class='ix' href='#' onclick='confirmDelete(" . $row['id'] . ")'>X</a></td>";
+                        echo "<td class='do'><a class='don' href='todo.php?done_task=" . $row['id'] . "'>Done</a></td>";
+                        echo "</tr>";
+                        $id++;
+                    }
+                }
+
+            ?>
+        </tbody>
         </table>
     </div>
     </div>
@@ -133,7 +162,7 @@
 
     function confirmLogout() {
         if (confirm('Are you sure you want to log out?')) {
-            window.location.href = 'main.php';
+            window.location.href = 'logout.php';
         }
     }
 </script>   

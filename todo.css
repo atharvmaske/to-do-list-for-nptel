@@ -352,3 +352,17 @@ td.delete{
     text-align: center;
     border: 1px solid #6b8e23;
 }
+.user{
+    border: 1px solid #6b8e23;
+    max-height: 40px;
+    background-color: rgb(241, 226, 196);
+    border-radius: 30px;
+    display: flex;
+    margin-top: 20px;
+    align-items: center;
+    margin-left: 350px;
+}
+.name{
+    color: #6B8E23;
+    margin-right: 10px;
+}

@@ -2,6 +2,7 @@ body, h1, h2, h3, p, ul, li {
     margin: 0;
     padding: 0;
 }
+
 h1{
     margin-left: 30px;
     margin-top: 30px;
@@ -63,71 +64,7 @@ nav {
   .abt:hover::after {
     transform: scaleX(1);
     transform-origin: bottom left;
-  }
-  .con{
-    display: inline-block;
-    position: relative;
-    color: white;
-  }
-  .con::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    transform: scaleX(0);
-    height: 2px;
-    bottom: 0px;
-    left: 0;
-    background-color: white;
-    transform-origin: bottom right;
-    transition: transform 0.35s ease-out;
-  }
-  .con:hover::after {
-    transform: scaleX(1);
-    transform-origin: bottom left;
-  }
-  .log{
-    display: inline-block;
-    position: relative;
-    color: white;
-  }
-  .log::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    transform: scaleX(0);
-    height: 2px;
-    bottom: 0px;
-    left: 0;
-    background-color: white;
-    transform-origin: bottom right;
-    transition: transform 0.35s ease-out;
-  }
-  .log:hover::after {
-    transform: scaleX(1);
-    transform-origin: bottom left;
-  }
-  .reg{
-    display: inline-block;
-    position: relative;
-    color: white;
-  }
-  .reg::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    transform: scaleX(0);
-    height: 2px;
-    bottom: 0px;
-    left: 0;
-    background-color: white;
-    transform-origin: bottom right;
-    transition: transform 0.35s ease-out;
-  }
-  .reg:hover::after {
-    transform: scaleX(1);
-    transform-origin: bottom left;
-  }
-    
+  } 
 .bt{
     background-color: #555;
     border: none;
@@ -247,11 +184,13 @@ footer {
 .i3{
     width: 25px;
     height: 25px;
+    border-radius: 10px;
     margin-top: 50px;
 }
 .i4{
     width: 25px;
     height: 25px;
+    border-radius: 10px;
     margin-top: 50px;
 }
 .i5{
@@ -338,3 +277,17 @@ html{
     margin-top: 70px;
     margin-left: 150px;
 }
+/*
+.hidden{
+    opacity: 0;
+    filter: blur(5px);
+    transform: translateX(-50%);
+    transition: all 1s;
+}
+.show{
+    filter: blur(0);
+    transform: translateX(0);
+    transition: all 1s;
+    opacity: 1;
+}
+*/

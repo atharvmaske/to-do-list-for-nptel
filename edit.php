@@ -1,17 +1,27 @@
-<!-- edit.php -->
-
 <?php
+session_start();
+
+// Redirect users who are not logged in
+if (!isset($_SESSION['username'])) {
+    header('location: main.php');
+    exit();
+}
+
+$currentUser = $_SESSION['username'];
 $db = mysqli_connect('localhost', 'root', '', 'todo');
 
 if (isset($_POST['edit_task'])) {
     $id = $_POST['task_id'];
+    $editedDate = $_POST['edited_date'];
+    $editedTime = $_POST['edited_time'];
     $editedTask = $_POST['edited_task'];
 
-    mysqli_query($db, "UPDATE tasks SET task = '$editedTask' WHERE id = $id");
-    header('location: todo.php');
+    // Update the task only if it belongs to the logged-in user
+    mysqli_query($db, "UPDATE tasks SET date = '$editedDate', time = '$editedTime', task = '$editedTask' WHERE id = $id AND username = '$currentUser'");
+    header('location: edit.php');
 }
 
-$tasks = mysqli_query($db, "SELECT * FROM tasks");
+$tasks = mysqli_query($db, "SELECT * FROM tasks WHERE username = '$currentUser'");
 ?>
 
 <!DOCTYPE html>
@@ -19,11 +29,11 @@ $tasks = mysqli_query($db, "SELECT * FROM tasks");
 <head>
     <title>Edit Tasks</title>
     <link rel="stylesheet" href="edit.css?v=<?php echo time(); ?>">
-    <link rel="icon" type="image/x-icon" href="Screenshot_20230720_191453_Chrome.jpg">
+    <link rel="icon" type="image/x-icon" href="img/logo.png">
 </head>
 <body>
     <div class="container">
-    <a class="back" href="todo.php">Todo</a>
+        <a class="back" href="todo.php">Todo</a>
         <div class="bdy">
             <div class="heading">
                 <h2>Edit Tasks</h2>

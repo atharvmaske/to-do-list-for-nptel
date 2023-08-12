@@ -10,7 +10,7 @@ $completed_tasks = mysqli_query($db, "SELECT * FROM tasks WHERE is_done = 1");
 <head>
     <title>Completed Tasks</title>
     <link rel="stylesheet" href="todo.css?v=<?php echo time(); ?>">
-    <link rel="icon" type="image/x-icon" href="Screenshot_20230720_191453_Chrome.jpg">
+    <link rel="icon" type="image/x-icon" href="img/logo.png">
 </head>
 <body>
     <div class="container1">
