@@ -1,8 +1,16 @@
 <?php
+session_start();
+
+if (!isset($_SESSION['username'])) {
+    header('location: main.php');
+    exit();
+}
+
 $db = mysqli_connect('localhost', 'root', '', 'todo');
 
-// Get completed tasks
-$completed_tasks = mysqli_query($db, "SELECT * FROM tasks WHERE is_done = 1");
+// Get completed tasks for the logged-in user
+$currentUser = $_SESSION['username'];
+$completed_tasks = mysqli_query($db, "SELECT * FROM tasks WHERE username='$currentUser' AND is_done = 1");
 ?>
 
 <!DOCTYPE html>
@@ -14,8 +22,7 @@ $completed_tasks = mysqli_query($db, "SELECT * FROM tasks WHERE is_done = 1");
 </head>
 <body>
     <div class="container1">
-        
-    <a class="back" href="todo.php">Todo</a>
+        <a class="back" href="todo.php">Todo</a>
         <h2 class="h2">Completed Tasks</h2>
         <table>
             <thead class="he">
